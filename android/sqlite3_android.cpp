@@ -191,15 +191,21 @@ static void delete_file(sqlite3_context * context, int argc, sqlite3_value ** ar
 
     char const * path = (char const *)sqlite3_value_text(argv[0]);
     char const * external_storage = getenv("EXTERNAL_STORAGE");
-    if (path == NULL || external_storage == NULL) {
+    char const * external_storage_extsd = getenv("EXTERNAL_STORAGE_EXTSD");
+    char const * external_storage_udisk = getenv("EXTERNAL_STORAGE_UDISK");
+    if (path == NULL || ((external_storage == NULL) && (external_storage_extsd == NULL) && (external_storage_udisk == NULL))) {
         sqlite3_result_null(context);
         return;
     }
 
-    if (strncmp(external_storage, path, strlen(external_storage)) != 0) {
+    if ((strncmp(external_storage, path, strlen(external_storage)) != 0)
+           && (strncmp(external_storage_extsd, path, strlen(external_storage_extsd)) != 0)
+           && (strncmp(external_storage_udisk, path, strlen(external_storage_udisk)) != 0))
+ {
         sqlite3_result_null(context);
         return;
     }
+
     if (strstr(path, "/../") != NULL) {
         sqlite3_result_null(context);
         return;
