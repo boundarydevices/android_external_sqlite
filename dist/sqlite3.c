@@ -1032,6 +1032,7 @@ SQLITE_API int sqlite3_exec(
 ** If the lower four bits equal SQLITE_SYNC_FULL, that means
 ** to use Mac OS X style fullsync instead of fsync().
 */
+#define SQLITE_NO_SYNC
 #define SQLITE_SYNC_NORMAL        0x00002
 #define SQLITE_SYNC_FULL          0x00003
 #define SQLITE_SYNC_DATAONLY      0x00010
